@@ -69,6 +69,485 @@
       transform: translateY(0);
     }
   }
+
+  /* ===== MÓVILES - Galería compacta y sin zoom ===== */
+  @media (max-width: 767.98px) {
+    /* Page Title más compacto */
+    .page-title {
+      padding: 1rem 0 !important;
+    }
+    .page-title h1 {
+      font-size: 1.1rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .page-title .breadcrumbs {
+      font-size: 0.75rem;
+    }
+    
+    /* Galería de producto compacta */
+    .product-gallery {
+      margin-bottom: 1rem;
+    }
+    .product-gallery .main-showcase {
+      max-height: 250px !important;
+      margin-bottom: 0.5rem;
+    }
+    .product-gallery .image-zoom-container {
+      max-height: 250px !important;
+      height: 250px !important;
+    }
+    .product-gallery .main-product-image,
+    .product-gallery #main-product-image {
+      max-height: 250px !important;
+      height: 100% !important;
+      width: 100% !important;
+      object-fit: contain !important;
+    }
+    
+    /* Thumbnails pequeños */
+    .product-gallery .thumbnail-grid {
+      gap: 0.35rem !important;
+      margin-top: 0.5rem !important;
+      justify-content: center;
+    }
+    .product-gallery .thumbnail-wrapper,
+    .product-gallery .thumbnail-item {
+      width: 45px !important;
+      height: 45px !important;
+      min-width: 45px !important;
+      max-width: 45px !important;
+    }
+    .product-gallery .thumbnail-wrapper img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+    
+    /* Flechas de navegación más pequeñas */
+    .product-gallery .image-navigation .nav-arrow,
+    .product-gallery .image-nav-btn {
+      width: 30px !important;
+      height: 30px !important;
+      font-size: 0.875rem !important;
+    }
+    
+    /* Título del producto más pequeño */
+    .product-details .product-name {
+      font-size: 1.25rem !important;
+      line-height: 1.3 !important;
+      margin-bottom: 0.75rem !important;
+    }
+    
+    /* Precio más compacto */
+    .product-details .pricing-section {
+      margin-bottom: 0.75rem !important;
+    }
+    .product-details .sale-price {
+      font-size: 1.5rem !important;
+    }
+    .product-details .regular-price {
+      font-size: 1rem !important;
+    }
+    
+    /* Rating compacto */
+    .product-rating-display {
+      margin-top: 0.5rem !important;
+    }
+    .product-rating-display .bi {
+      font-size: 0.95rem !important;
+    }
+    
+    /* Stock info compacto */
+    .availability-status {
+      margin: 0.75rem 0 !important;
+    }
+    
+    /* Variantes compactas */
+    .variant-section {
+      margin: 0.75rem 0 !important;
+    }
+    .variant-section .variant-label {
+      font-size: 0.875rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .variant-section .variant-option {
+      padding: 0.35rem 0.75rem !important;
+      font-size: 0.8rem !important;
+    }
+    
+    /* Botones de acción compactos */
+    .purchase-section {
+      margin-top: 1rem !important;
+    }
+    .purchase-section .action-buttons {
+      gap: 0.5rem !important;
+    }
+    .purchase-section .primary-action,
+    .purchase-section .secondary-action {
+      padding: 0.6rem 1rem !important;
+      font-size: 0.875rem !important;
+    }
+    
+    /* Benefits más compactos */
+    .benefits-list {
+      margin-top: 1rem !important;
+      gap: 0.5rem !important;
+    }
+    .benefits-list .benefit-item {
+      padding: 0.5rem !important;
+      font-size: 0.8rem !important;
+    }
+    
+    /* Deshabilitar zoom completamente en móvil */
+    .drift-zoom-pane,
+    .drift-bounding-box,
+    .drift-zoom-pane.drift-open {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    
+    /* Permitir scroll táctil normal */
+    .drift-zoom,
+    .image-zoom-container,
+    .main-showcase {
+      touch-action: pan-y pan-x !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+  }
+
+  /* Pantallas muy pequeñas */
+  @media (max-width: 374px) {
+    .product-gallery .image-zoom-container,
+    .product-gallery .main-showcase {
+      max-height: 200px !important;
+      height: 200px !important;
+      width: 100% !important;
+    }
+    .product-gallery .main-product-image {
+      max-height: 200px !important;
+    }
+    .product-details .product-name {
+      font-size: 1.1rem !important;
+    }
+    .product-details .sale-price {
+      font-size: 1.3rem !important;
+    }
+    .product-gallery .thumbnail-wrapper,
+    .product-gallery .thumbnail-item {
+      width: 40px !important;
+      height: 40px !important;
+      min-width: 40px !important;
+      max-width: 40px !important;
+    }
+  }
+
+  /* ===== PAGINACIÓN ESTILIZADA ===== */
+  .pagination-wrapper,
+  .reviews-list + div {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    flex-wrap: wrap !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .pagination li {
+    display: flex !important;
+  }
+
+  .pagination li a,
+  .pagination li span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    padding: 0 0.75rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    color: #495057 !important;
+    background: #fff !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .pagination li a:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  }
+
+  .pagination li.active span,
+  .pagination li.active a {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  }
+
+  .pagination li.disabled span,
+  .pagination li.disabled a {
+    background: #f8f9fa !important;
+    color: #adb5bd !important;
+    border-color: #e9ecef !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+  }
+
+  /* Ocultar texto y mostrar flechas */
+  .pagination li:first-child a,
+  .pagination li:first-child span,
+  .pagination li:last-child a,
+  .pagination li:last-child span {
+    font-size: 0 !important;
+    min-width: 42px !important;
+  }
+
+  .pagination li:first-child a::before,
+  .pagination li:first-child span::before {
+    content: "‹";
+    font-size: 1.25rem !important;
+    font-weight: 600;
+  }
+
+  .pagination li:last-child a::after,
+  .pagination li:last-child span::after {
+    content: "›";
+    font-size: 1.25rem !important;
+    font-weight: 600;
+  }
+
+  /* SVG icons si los hay */
+  .pagination svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* ===== PAGINACIÓN TAILWIND LARAVEL ===== */
+  nav[role="navigation"] {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  nav[role="navigation"] > div {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: auto !important;
+  }
+
+  /* Ocultar texto "Showing X to Y" */
+  nav[role="navigation"] p,
+  nav[role="navigation"] > div > div:first-child {
+    display: none !important;
+  }
+
+  /* Contenedor de botones */
+  nav[role="navigation"] span.relative.z-0,
+  nav[role="navigation"] .relative.z-0 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+  }
+
+  nav[role="navigation"] span.relative.z-0 > *,
+  nav[role="navigation"] .relative.z-0 > * {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  nav[role="navigation"] a,
+  nav[role="navigation"] span[aria-current="page"] > span,
+  nav[role="navigation"] span.relative.z-0 > span:not([aria-current]) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    padding: 0 0.75rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    color: #495057 !important;
+    background: #fff !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    -webkit-appearance: none !important;
+  }
+
+  nav[role="navigation"] a:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  }
+
+  nav[role="navigation"] span[aria-current="page"] > span {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  }
+
+  nav[role="navigation"] span.relative.z-0 > span:not([aria-current]):not(:has(span)) {
+    background: #f8f9fa !important;
+    color: #adb5bd !important;
+    border-color: #e9ecef !important;
+    cursor: default;
+  }
+
+  /* Flechas Previous/Next - Ocultar texto, mostrar iconos */
+  nav[role="navigation"] a[rel="prev"],
+  nav[role="navigation"] a[rel="next"],
+  nav[role="navigation"] span.relative.z-0 > span:first-child,
+  nav[role="navigation"] span.relative.z-0 > span:last-child,
+  nav[role="navigation"] span.relative.z-0 > a:first-child,
+  nav[role="navigation"] span.relative.z-0 > a:last-child {
+    font-size: 0 !important;
+    min-width: 42px !important;
+    padding: 0 !important;
+  }
+
+  nav[role="navigation"] a[rel="prev"]::before,
+  nav[role="navigation"] span.relative.z-0 > span:first-child::before,
+  nav[role="navigation"] span.relative.z-0 > a:first-child::before {
+    content: "‹" !important;
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    line-height: 1;
+  }
+
+  nav[role="navigation"] a[rel="next"]::after,
+  nav[role="navigation"] span.relative.z-0 > span:last-child::after,
+  nav[role="navigation"] span.relative.z-0 > a:last-child::after {
+    content: "›" !important;
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    line-height: 1;
+  }
+
+  /* Ocultar SVGs dentro de los botones prev/next */
+  nav[role="navigation"] a[rel="prev"] svg,
+  nav[role="navigation"] a[rel="next"] svg,
+  nav[role="navigation"] span.relative.z-0 > span:first-child svg,
+  nav[role="navigation"] span.relative.z-0 > span:last-child svg {
+    display: none !important;
+  }
+
+  /* ===== PAGINACIÓN MÓVILES ===== */
+  @media (max-width: 767.98px) {
+    .pagination li a,
+    .pagination li span,
+    nav[role="navigation"] a,
+    nav[role="navigation"] span[aria-current="page"] > span,
+    nav[role="navigation"] span.relative.z-0 > span {
+      min-width: 34px !important;
+      height: 34px !important;
+      padding: 0 0.5rem !important;
+      font-size: 0.85rem !important;
+      border-radius: 6px !important;
+    }
+
+    .pagination li:first-child a,
+    .pagination li:first-child span,
+    .pagination li:last-child a,
+    .pagination li:last-child span,
+    nav[role="navigation"] a[rel="prev"],
+    nav[role="navigation"] a[rel="next"],
+    nav[role="navigation"] span.relative.z-0 > span:first-child,
+    nav[role="navigation"] span.relative.z-0 > span:last-child,
+    nav[role="navigation"] span.relative.z-0 > a:first-child,
+    nav[role="navigation"] span.relative.z-0 > a:last-child {
+      min-width: 38px !important;
+    }
+
+    .pagination li:first-child a::before,
+    .pagination li:first-child span::before,
+    nav[role="navigation"] a[rel="prev"]::before,
+    nav[role="navigation"] span.relative.z-0 > span:first-child::before,
+    nav[role="navigation"] span.relative.z-0 > a:first-child::before {
+      font-size: 1.2rem !important;
+    }
+
+    .pagination li:last-child a::after,
+    .pagination li:last-child span::after,
+    nav[role="navigation"] a[rel="next"]::after,
+    nav[role="navigation"] span.relative.z-0 > span:last-child::after,
+    nav[role="navigation"] span.relative.z-0 > a:last-child::after {
+      font-size: 1.2rem !important;
+    }
+  }
+
+  @media (max-width: 374px) {
+    .pagination li a,
+    .pagination li span,
+    nav[role="navigation"] a,
+    nav[role="navigation"] span[aria-current="page"] > span,
+    nav[role="navigation"] span.relative.z-0 > span {
+      min-width: 30px !important;
+      height: 30px !important;
+      font-size: 0.8rem !important;
+      padding: 0 0.4rem !important;
+    }
+  }
+  /* ===== OCULTAR TEXTO DE TRADUCCIÓN FALTANTE ===== */
+nav[role="navigation"] > div > div.flex.justify-between,
+nav[role="navigation"] > div > div.hidden,
+nav[role="navigation"] > div > div:not(:last-child),
+nav[role="navigation"] .flex.flex-1.justify-between,
+nav[role="navigation"] > div > .flex:not(.relative) {
+  display: none !important;
+}
+
+/* Solo mostrar el contenedor de los números */
+nav[role="navigation"] > div > div:last-child,
+nav[role="navigation"] > div > span.relative.z-0,
+nav[role="navigation"] span.relative.z-0 {
+  display: flex !important;
+}
+
+/* Ocultar cualquier texto suelto fuera de los botones */
+nav[role="navigation"] > div {
+  font-size: 0 !important;
+}
+
+nav[role="navigation"] > div > span.relative.z-0,
+nav[role="navigation"] > div > span.relative.z-0 * {
+  font-size: 0.9rem !important;
+}
+
+nav[role="navigation"] > div > span.relative.z-0 > span:first-child,
+nav[role="navigation"] > div > span.relative.z-0 > span:last-child,
+nav[role="navigation"] > div > span.relative.z-0 > a:first-child,
+nav[role="navigation"] > div > span.relative.z-0 > a:last-child {
+  font-size: 0 !important;
+}
 </style>
 @endpush
 
