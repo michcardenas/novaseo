@@ -815,7 +815,11 @@ nav[role="navigation"] > div > span.relative.z-0 > a:last-child {
                 <div class="action-buttons">
                   <button class="btn primary-action" id="addToCartBtn"
                     @php $stockInfo = $producto->getStockInfo(); @endphp
-                    {{ (!$producto->precio_actual || (!$stockInfo['hay_stock'] && $stockInfo['stock_limitado'])) ? 'disabled' : '' }}>
+                    @if($producto->tiene_variantes)
+                      {{ !$producto->precio_actual ? 'disabled' : '' }}
+                    @else
+                      {{ (!$producto->precio_actual || (!$stockInfo['hay_stock'] && $stockInfo['stock_limitado'])) ? 'disabled' : '' }}
+                    @endif>
                     <i class="bi bi-bag-plus"></i>
                     Agregar al Carrito
                   </button>
@@ -1587,7 +1591,7 @@ nav[role="navigation"] > div > span.relative.z-0 > a:last-child {
         if (selectedVariant) {
           updateStockInfo(varianteId);
           // Solo habilitar si puede agregar al carrito
-          const puedeAgregar = $(this).data('puede-agregar-sin-stock') === 'true' || $(this).data('stock-disponible') > 0;
+          const puedeAgregar = !!$(this).data('puede-agregar-sin-stock') || parseInt($(this).data('stock-disponible')) > 0;
           $('#addToCartBtn').prop('disabled', !puedeAgregar);
         }
       } else {
