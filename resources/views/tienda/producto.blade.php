@@ -873,7 +873,7 @@ nav[role="navigation"] > div > span.relative.z-0 > a:last-child {
               </nav>
 
               <div class="tab-content">
-                <!-- Overview Tab -->
+                <!-- Overview Tdab -->
                 <div class="tab-pane fade show active" id="ecommerce-product-details-5-overview">
                   <div class="overview-content">
                     <div class="row g-4">
