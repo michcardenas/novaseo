@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Empresa;
-use Illuminate\Support\Str; // si quieres la misma validación opcional
+use Illuminate\Support\Str;
+use App\Services\SitemapService;
 class Producto extends Model
 {
     use HasFactory;
@@ -39,6 +40,29 @@ class Producto extends Model
         'controlar_stock' => 'boolean',
         'permitir_venta_sin_stock' => 'boolean',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($producto) {
+            SitemapService::generar();
+        });
+
+        static::updated(function ($producto) {
+            SitemapService::generar();
+        });
+
+        static::deleted(function ($producto) {
+            SitemapService::generar();
+        });
+    }
+
+    public function getSlugAttribute()
+    {
+        return Str::slug($this->nombre);
+    }
+
     public function empresa()
     {
         return $this->belongsTo(Empresa::class);

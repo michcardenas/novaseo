@@ -121,7 +121,7 @@
                                         @php
                                             $producto = $calificacion->parent->producto ?? $calificacion->producto;
                                         @endphp
-                                        <a href="{{ route('tienda.producto', $producto->id ?? 0) }}" target="_blank" class="text-decoration-none">
+                                        <a href="{{ route('tienda.producto', $producto->slug ?? '') }}" target="_blank" class="text-decoration-none">
                                             {{ Str::limit($producto->nombre ?? 'Producto eliminado', 30) }}
                                         </a>
                                     </div>

@@ -330,12 +330,12 @@
                   @endif
                   <div class="product-overlay">
                     <div class="product-actions">
-                      <a href="{{ route('tienda.producto', $producto->id) }}"
+                      <a href="{{ route('tienda.producto', $producto->slug) }}"
                          class="action-btn" data-bs-toggle="tooltip" title="Ver Detalles">
                         <i class="bi bi-eye"></i>
                       </a>
                       @if($producto->tiene_variantes)
-                        <a href="{{ route('tienda.producto', $producto->id) }}"
+                        <a href="{{ route('tienda.producto', $producto->slug) }}"
                            class="action-btn" data-bs-toggle="tooltip" title="Ver Opciones">
                           <i class="bi bi-cart-plus"></i>
                         </a>
@@ -363,7 +363,7 @@
                 <div class="product-details">
                   <div class="product-category">{{ $producto->categoria->nombre }}</div>
                   <h4 class="product-title">
-                    <a href="{{ route('tienda.producto', $producto->id) }}">{{ $producto->nombre }}</a>
+                    <a href="{{ route('tienda.producto', $producto->slug) }}">{{ $producto->nombre }}</a>
                   </h4>
                   <div class="product-meta">
                     @if($producto->precio_actual)
@@ -417,12 +417,12 @@
               <div class="product-list-item">
                 <div class="row align-items-center">
                   <div class="col-md-3">
-                    <a href="{{ route('tienda.producto', $producto->id) }}">
+                    <a href="{{ route('tienda.producto', $producto->slug) }}">
                       <img src="{{ $producto->url_imagen_principal }}" class="img-fluid" alt="{{ $producto->nombre }}">
                     </a>
                   </div>
                   <div class="col-md-6">
-                    <h4><a href="{{ route('tienda.producto', $producto->id) }}">{{ $producto->nombre }}</a></h4>
+                    <h4><a href="{{ route('tienda.producto', $producto->slug) }}">{{ $producto->nombre }}</a></h4>
                     <p class="text-muted mb-2">{{ $producto->categoria->nombre }}</p>
                     <p>{{ Str::limit($producto->descripcion, 150) }}</p>
                     @if(($producto->total_calificaciones ?? 0) > 0)
@@ -450,7 +450,7 @@
                       <div class="product-price text-muted mb-2">Precio no disponible</div>
                     @endif
                     @if($producto->tiene_variantes)
-                      <a href="{{ route('tienda.producto', $producto->id) }}" class="btn btn-primary">
+                      <a href="{{ route('tienda.producto', $producto->slug) }}" class="btn btn-primary">
                         Ver Opciones
                       </a>
                     @else

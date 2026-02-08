@@ -459,6 +459,12 @@
 
             <!-- Navigation Links -->
             <div class="nav-links">
+                <a href="{{ route('tienda.blog') }}" class="nav-link">
+                    <div class="nav-link-content">
+                        <i class="bi bi-journal-richtext"></i>
+                        <span>Blog</span>
+                    </div>
+                </a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <div class="nav-link-content">
@@ -511,6 +517,10 @@
                     </button>
                 </div>
                 <div class="mobile-menu-links">
+                    <a href="{{ route('tienda.blog') }}" class="mobile-nav-link">
+                        <i class="bi bi-journal-richtext"></i>
+                        <span>Blog</span>
+                    </a>
                     @auth
                         <a href="{{ route('dashboard') }}" class="mobile-nav-link">
                             <i class="bi bi-person-circle"></i>

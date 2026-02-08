@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empresa;
 use App\Models\CarruselEmpresa;
+use App\Models\BannerSlide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -340,6 +341,162 @@ class EmpresasController extends Controller
             'activo'  => $empresa->activo,
             'mensaje' => $empresa->activo ? 'Empresa activada' : 'Empresa desactivada',
         ]);
+    }
+
+    /**
+     * Formulario de edición del banner promocional (carrusel de slides)
+     */
+    public function editarBanner()
+    {
+        $empresa = auth()->user()->empresa;
+
+        if (!$empresa) {
+            return redirect()->route('empresa.crear')
+                ->with('info', 'Primero debe crear su empresa para continuar.');
+        }
+
+        $empresa->load('bannerSlides');
+
+        return view('empresa.banner', compact('empresa'));
+    }
+
+    /**
+     * Guardar slides del banner promocional
+     */
+    public function guardarBanner(Request $request)
+    {
+        $empresa = auth()->user()->empresa;
+
+        if (!$empresa) {
+            return redirect()->route('empresa.crear')
+                ->with('error', 'No tiene empresa registrada.');
+        }
+
+        $rules = [
+            // Nuevos slides
+            'slides.*.imagen'      => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'slides.*.titulo'      => ['nullable', 'string', 'max:255'],
+            'slides.*.subtitulo'   => ['nullable', 'string', 'max:500'],
+            'slides.*.btn1_texto'  => ['nullable', 'string', 'max:255'],
+            'slides.*.btn1_link'   => ['nullable', 'string', 'max:255'],
+            'slides.*.btn2_texto'  => ['nullable', 'string', 'max:255'],
+            'slides.*.btn2_link'   => ['nullable', 'string', 'max:255'],
+            'slides.*.orden'       => ['nullable', 'integer'],
+            // Slides existentes
+            'slides_existentes.*.titulo'      => ['nullable', 'string', 'max:255'],
+            'slides_existentes.*.subtitulo'   => ['nullable', 'string', 'max:500'],
+            'slides_existentes.*.btn1_texto'  => ['nullable', 'string', 'max:255'],
+            'slides_existentes.*.btn1_link'   => ['nullable', 'string', 'max:255'],
+            'slides_existentes.*.btn2_texto'  => ['nullable', 'string', 'max:255'],
+            'slides_existentes.*.btn2_link'   => ['nullable', 'string', 'max:255'],
+            'slides_existentes.*.orden'       => ['nullable', 'integer'],
+            'slides_existentes.*.imagen'      => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+        ];
+
+        $messages = [
+            'slides.*.imagen.image'            => 'El archivo debe ser una imagen.',
+            'slides.*.imagen.max'              => 'La imagen no debe superar 5MB.',
+            'slides.*.imagen.mimes'            => 'La imagen debe ser JPG, PNG o WebP.',
+            'slides_existentes.*.imagen.image' => 'El archivo debe ser una imagen.',
+            'slides_existentes.*.imagen.max'   => 'La imagen no debe superar 5MB.',
+            'slides_existentes.*.imagen.mimes' => 'La imagen debe ser JPG, PNG o WebP.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        DB::beginTransaction();
+
+        try {
+            $bannerDir = public_path('imagenes/empresas/' . $empresa->id . '/banner');
+            if (!File::exists($bannerDir)) {
+                File::makeDirectory($bannerDir, 0755, true);
+            }
+
+            // ---- ACTUALIZAR / ELIMINAR SLIDES EXISTENTES ----
+            if ($request->has('slides_existentes')) {
+                foreach ($request->slides_existentes as $id => $slideData) {
+                    $slide = BannerSlide::find($id);
+
+                    if ($slide && $slide->empresa_id == $empresa->id) {
+                        // Eliminar si marcado
+                        if (isset($slideData['eliminar']) && $slideData['eliminar']) {
+                            if (!empty($slide->imagen)) {
+                                $rutaImagen = public_path($slide->imagen);
+                                if (File::exists($rutaImagen)) {
+                                    File::delete($rutaImagen);
+                                }
+                            }
+                            $slide->delete();
+                        } else {
+                            // Actualizar campos
+                            $updateData = [
+                                'titulo'     => $slideData['titulo'] ?? $slide->titulo,
+                                'subtitulo'  => $slideData['subtitulo'] ?? $slide->subtitulo,
+                                'btn1_texto' => $slideData['btn1_texto'] ?? $slide->btn1_texto,
+                                'btn1_link'  => $slideData['btn1_link'] ?? $slide->btn1_link,
+                                'btn2_texto' => $slideData['btn2_texto'] ?? $slide->btn2_texto,
+                                'btn2_link'  => $slideData['btn2_link'] ?? $slide->btn2_link,
+                                'orden'      => $slideData['orden'] ?? $slide->orden,
+                                'activo'     => isset($slideData['activo']) ? (bool)$slideData['activo'] : $slide->activo,
+                            ];
+
+                            // Reemplazar imagen si se subió una nueva
+                            if (isset($slideData['imagen']) && $slideData['imagen']) {
+                                // Eliminar imagen anterior
+                                if (!empty($slide->imagen)) {
+                                    $rutaAnterior = public_path($slide->imagen);
+                                    if (File::exists($rutaAnterior)) {
+                                        File::delete($rutaAnterior);
+                                    }
+                                }
+
+                                $imagen = $slideData['imagen'];
+                                $filename = time() . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $imagen->getClientOriginalName());
+                                $imagen->move($bannerDir, $filename);
+                                $updateData['imagen'] = 'imagenes/empresas/' . $empresa->id . '/banner/' . $filename;
+                            }
+
+                            $slide->update($updateData);
+                        }
+                    }
+                }
+            }
+
+            // ---- CREAR NUEVOS SLIDES ----
+            if ($request->has('slides')) {
+                foreach ($request->slides as $index => $slideData) {
+                    $imagenPath = null;
+
+                    if (isset($slideData['imagen']) && $slideData['imagen']) {
+                        $imagen = $slideData['imagen'];
+                        $filename = time() . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $imagen->getClientOriginalName());
+                        $imagen->move($bannerDir, $filename);
+                        $imagenPath = 'imagenes/empresas/' . $empresa->id . '/banner/' . $filename;
+                    }
+
+                    BannerSlide::create([
+                        'empresa_id' => $empresa->id,
+                        'titulo'     => $slideData['titulo'] ?? null,
+                        'subtitulo'  => $slideData['subtitulo'] ?? null,
+                        'imagen'     => $imagenPath,
+                        'btn1_texto' => $slideData['btn1_texto'] ?? null,
+                        'btn1_link'  => $slideData['btn1_link'] ?? null,
+                        'btn2_texto' => $slideData['btn2_texto'] ?? null,
+                        'btn2_link'  => $slideData['btn2_link'] ?? null,
+                        'orden'      => $slideData['orden'] ?? $index,
+                        'activo'     => true,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('empresa.banner')->with('success', 'Banner actualizado correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->with('error', 'Error al guardar el banner: ' . $e->getMessage());
+        }
     }
 
     /**

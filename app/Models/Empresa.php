@@ -34,7 +34,14 @@ class Empresa extends Model
         'hero_video_url',
         'hero_video_message',
         'hero_video_button_text',
-        'hero_video_button_link'
+        'hero_video_button_link',
+        'banner_titulo',
+        'banner_subtitulo',
+        'banner_imagen',
+        'banner_btn1_texto',
+        'banner_btn1_link',
+        'banner_btn2_texto',
+        'banner_btn2_link'
     ];
 
     protected $casts = [
@@ -69,6 +76,18 @@ class Empresa extends Model
                 $q->whereNull('fecha_fin')
                   ->orWhere('fecha_fin', '>=', now());
             })
+            ->orderBy('orden');
+    }
+
+    public function bannerSlides()
+    {
+        return $this->hasMany(BannerSlide::class);
+    }
+
+    public function bannerSlidesActivos()
+    {
+        return $this->hasMany(BannerSlide::class)
+            ->where('activo', true)
             ->orderBy('orden');
     }
 
@@ -120,6 +139,11 @@ class Empresa extends Model
     public function getImagenPortadaUrlAttribute()
     {
         return $this->imagen_portada ? asset($this->imagen_portada) : asset('images/default-cover.jpg');
+    }
+
+    public function getBannerImagenUrlAttribute()
+    {
+        return $this->banner_imagen ? asset($this->banner_imagen) : $this->imagen_portada_url;
     }
 
     protected static function boot()

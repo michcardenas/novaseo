@@ -196,6 +196,8 @@ Route::prefix('empresa')->middleware(['auth', 'verificar.empresa', 'verificar.me
     Route::post('/guardar', [App\Http\Controllers\EmpresasController::class, 'guardar'])->name('guardar');
     Route::post('/cambiar-estado', [App\Http\Controllers\EmpresasController::class, 'cambiarEstado'])->name('cambiar-estado');
     Route::get('/preview', [App\Http\Controllers\EmpresasController::class, 'preview'])->name('preview');
+    Route::get('/banner', [App\Http\Controllers\EmpresasController::class, 'editarBanner'])->name('banner');
+    Route::post('/banner/guardar', [App\Http\Controllers\EmpresasController::class, 'guardarBanner'])->name('banner.guardar');
 });
 
 // Ruta pública para ver la tienda
@@ -256,7 +258,7 @@ Route::middleware(['auth', 'verificar.empresa'])->prefix('calificaciones')->name
 });
 
 // Ruta pública para guardar reseñas de productos
-Route::post('/producto/{producto}/resena', [App\Http\Controllers\TiendaController::class, 'guardarResena'])
+Route::post('/producto/{slug}/resena', [App\Http\Controllers\TiendaController::class, 'guardarResena'])
     ->name('tienda.producto.resena');
 
 // Rutas públicas para respuestas y reacciones
@@ -265,6 +267,25 @@ Route::prefix('resenas')->name('resenas.')->group(function () {
     Route::post('/{calificacion}/reaccion', [App\Http\Controllers\TiendaController::class, 'toggleReaccion'])->name('reaccion');
 });
 
+
+// ========== RUTAS DE BLOG (ADMIN) ==========
+Route::prefix('admin-blog')
+    ->middleware(['auth', 'verificar.empresa'])
+    ->name('blog.')
+    ->group(function () {
+        Route::get('/', [App\Http\Controllers\BlogController::class, 'index'])->name('index');
+        Route::get('/form/{blogPost?}', [App\Http\Controllers\BlogController::class, 'form'])->name('form');
+        Route::post('/guardar', [App\Http\Controllers\BlogController::class, 'guardar'])->name('guardar');
+        Route::post('/{blogPost}/cambiar-estado', [App\Http\Controllers\BlogController::class, 'cambiarEstado'])->name('cambiar-estado');
+        Route::delete('/{blogPost}/eliminar', [App\Http\Controllers\BlogController::class, 'eliminar'])->name('eliminar');
+        // Categorías del blog
+        Route::get('/categorias', [App\Http\Controllers\BlogController::class, 'categorias'])->name('categorias');
+        Route::post('/categorias/guardar', [App\Http\Controllers\BlogController::class, 'guardarCategoria'])->name('categorias.guardar');
+        Route::delete('/categorias/{blogCategoria}/eliminar', [App\Http\Controllers\BlogController::class, 'eliminarCategoria'])->name('categorias.eliminar');
+        // Configuración del blog
+        Route::get('/configuracion', [App\Http\Controllers\BlogController::class, 'configuracion'])->name('configuracion');
+        Route::post('/configuracion/guardar', [App\Http\Controllers\BlogController::class, 'guardarConfiguracion'])->name('configuracion.guardar');
+    });
 
 // Webhook de Wompi (sin CSRF)
 Route::post('/webhooks/wompi', [App\Http\Controllers\WebhookController::class, 'wompi'])
@@ -311,14 +332,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // Ruta pública para confirmación de pago de membresía - DESHABILITADA
 // Route::get('/membresias/pago/confirmacion/{referencia}', [App\Http\Controllers\MembresiaController::class, 'confirmarPago'])->name('membresias.pago.confirmacion');
 
+// ========== SITEMAP ==========
+Route::get('/sitemap.xml', function () {
+    $path = public_path('sitemap.xml');
+    if (!file_exists($path)) {
+        \App\Services\SitemapService::generar();
+    }
+    return response()->file($path, ['Content-Type' => 'application/xml']);
+})->name('sitemap');
+
 // ========== RUTAS DE TIENDA PÚBLICA (SINGLE-TENANT - SIN SLUG) ==========
+
+// Blog público
+Route::get('/blog', [App\Http\Controllers\TiendaController::class, 'blogIndex'])
+    ->name('tienda.blog');
+Route::get('/blog/{slug}', [App\Http\Controllers\TiendaController::class, 'blogPost'])
+    ->name('tienda.blog.post');
 
 // Catálogo de productos (con filtros por categoría, precio, etc.)
 Route::get('/catalogo', [App\Http\Controllers\TiendaController::class, 'categorias'])
     ->name('tienda.categorias');
 
 // Producto individual
-Route::get('/producto/{producto}', [App\Http\Controllers\TiendaController::class, 'producto'])
+Route::get('/producto/{slug}', [App\Http\Controllers\TiendaController::class, 'producto'])
     ->name('tienda.producto');
 
 // Carrito

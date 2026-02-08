@@ -1397,7 +1397,7 @@ nav[role="navigation"] > div > span.relative.z-0 > a:last-child {
                     @endif
                     <div class="product-overlay">
                       <div class="product-actions">
-                        <a href="{{ route('tienda.producto', $relacionado->id) }}"
+                        <a href="{{ route('tienda.producto', $relacionado->slug) }}"
                            class="action-btn" data-bs-toggle="tooltip" title="Ver Detalles">
                           <i class="bi bi-eye"></i>
                         </a>
@@ -1409,7 +1409,7 @@ nav[role="navigation"] > div > span.relative.z-0 > a:last-child {
                       {{ $relacionado->categoria->nombre }}
                     </div>
                     <h4 class="product-title" style="font-size: 1rem; margin-bottom: 0.75rem; line-height: 1.4;">
-                      <a href="{{ route('tienda.producto', $relacionado->id) }}"
+                      <a href="{{ route('tienda.producto', $relacionado->slug) }}"
                          style="text-decoration: none; color: #212529;">
                         {{ Str::limit($relacionado->nombre, 50) }}
                       </a>
@@ -1961,7 +1961,7 @@ nav[role="navigation"] > div > span.relative.z-0 > a:last-child {
       }
 
       $.ajax({
-        url: "{{ route('tienda.producto.resena', $producto->id) }}",
+        url: "{{ route('tienda.producto.resena', $producto->slug) }}",
         method: 'POST',
         dataType: 'json',
         data: formData,

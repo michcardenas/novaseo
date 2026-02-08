@@ -61,6 +61,99 @@
       </div>
     </section>
     @endif
+
+    <!-- Banner Promocional - Carrusel -->
+    @if($empresa->bannerSlidesActivos->count() > 0)
+    <section class="promo-banner section" data-aos="fade-up">
+      <div id="promoBannerCarousel" class="carousel slide carousel-fade"
+           data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover">
+
+        @if($empresa->bannerSlidesActivos->count() > 1)
+          <div class="carousel-indicators promo-indicators">
+            @foreach($empresa->bannerSlidesActivos as $idx => $s)
+              <button type="button" data-bs-target="#promoBannerCarousel" data-bs-slide-to="{{ $idx }}"
+                      class="{{ $idx === 0 ? 'active' : '' }}"
+                      aria-current="{{ $idx === 0 ? 'true' : 'false' }}"
+                      aria-label="Slide {{ $idx + 1 }}"></button>
+            @endforeach
+          </div>
+        @endif
+
+        <div class="carousel-inner">
+          @foreach($empresa->bannerSlidesActivos as $idx => $slide)
+            <div class="carousel-item {{ $idx === 0 ? 'active' : '' }}">
+              <div class="promo-banner-bg" style="background-image: url('{{ $slide->imagen_url }}');">
+                <div class="promo-banner-overlay"></div>
+                <div class="container position-relative" style="z-index: 2;">
+                  <div class="row align-items-center min-vh-25">
+                    <div class="col-lg-7 text-white py-5">
+                      <span class="promo-badge">
+                        <i class="bi bi-stars me-1"></i> {{ $empresa->nombre }}
+                      </span>
+                      <h2 class="promo-title">
+                        {{ $slide->titulo ?? 'Descubre lo mejor para ti' }}
+                      </h2>
+                      <p class="promo-desc">
+                        {{ $slide->subtitulo ?? $empresa->descripcion ?? 'Explora nuestra colección exclusiva de productos seleccionados con la mejor calidad y los mejores precios.' }}
+                      </p>
+                      <div class="promo-actions">
+                        <a href="{{ $slide->btn1_link ?? '#productos' }}" class="promo-btn-primary">
+                          <i class="bi bi-bag-check me-2"></i>{{ $slide->btn1_texto ?? 'Ver Productos' }}
+                        </a>
+                        <a href="{{ $slide->btn2_link ?? '#categorias' }}" class="promo-btn-secondary">
+                          {{ $slide->btn2_texto ?? 'Explorar Categorías' }} <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          @endforeach
+        </div>
+
+        @if($empresa->bannerSlidesActivos->count() > 1)
+          <button class="carousel-control-prev" type="button" data-bs-target="#promoBannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#promoBannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        @endif
+      </div>
+    </section>
+    @else
+    {{-- Fallback: banner por defecto si no hay slides --}}
+    <section class="promo-banner section" data-aos="fade-up">
+      <div class="promo-banner-bg" style="background-image: url('{{ $empresa->imagen_portada_url }}');">
+        <div class="promo-banner-overlay"></div>
+        <div class="container position-relative" style="z-index: 2;">
+          <div class="row align-items-center min-vh-25">
+            <div class="col-lg-7 text-white py-5">
+              <span class="promo-badge">
+                <i class="bi bi-stars me-1"></i> {{ $empresa->nombre }}
+              </span>
+              <h2 class="promo-title">Descubre lo mejor para ti</h2>
+              <p class="promo-desc">
+                {{ $empresa->descripcion ?? 'Explora nuestra colección exclusiva de productos seleccionados con la mejor calidad y los mejores precios.' }}
+              </p>
+              <div class="promo-actions">
+                <a href="#productos" class="promo-btn-primary">
+                  <i class="bi bi-bag-check me-2"></i>Ver Productos
+                </a>
+                <a href="#categorias" class="promo-btn-secondary">
+                  Explorar Categorías <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    @endif
+
     <section id="hero" class="hero section">
       <div class="hero-container">
         <div class="hero-content">
@@ -68,8 +161,8 @@
             <h1 class="hero-title">{{ $empresa->nombre }}</h1>
             <p class="hero-description">{{ $empresa->descripcion ?? 'Tu tienda online de confianza.' }}</p>
             <div class="hero-actions" data-aos="fade-up" data-aos-delay="200">
-              <a href="#products" class="btn-primary">Comprar ahora</a>
-              <a href="#categories" class="btn-secondary">Categorias</a>
+              <a href="#productos" class="btn-primary">Comprar ahora</a>
+              <a href="#categorias" class="btn-secondary">Categorías</a>
             </div>
             <div class="features-list" data-aos="fade-up" data-aos-delay="300">
               <div class="feature-item">
@@ -123,7 +216,7 @@
                     }
                 @endphp
                 <div class="product-card featured">
-                  <a href="{{ route('tienda.producto', $destacados[0]->id) }}">
+                  <a href="{{ route('tienda.producto', $destacados[0]->slug) }}">
                     <img
                       src="{{ $destacados[0]->url_imagen_principal ?? asset('assets/img/product/placeholder.webp') }}"
                       alt="{{ $destacados[0]->nombre }}"
@@ -138,7 +231,7 @@
                   @endif
                   <div class="product-info">
                     <h4>
-                      <a href="{{ route('tienda.producto', $destacados[0]->id) }}">
+                      <a href="{{ route('tienda.producto', $destacados[0]->slug) }}">
                         {{ $destacados[0]->nombre }}
                       </a>
                     </h4>
@@ -190,7 +283,7 @@
                     }
                   @endphp
                   <div class="product-mini" data-aos="zoom-in" data-aos-delay="400">
-                    <a href="{{ route('tienda.producto', $destacados[1]->id) }}">
+                    <a href="{{ route('tienda.producto', $destacados[1]->slug) }}">
                       <img
                         src="{{ $destacados[1]->url_imagen_principal ?? asset('assets/img/product/placeholder.webp') }}"
                         alt="{{ $destacados[1]->nombre }}"
@@ -237,7 +330,7 @@
                     }
                   @endphp
                   <div class="product-mini" data-aos="zoom-in" data-aos-delay="500">
-                    <a href="{{ route('tienda.producto', $destacados[2]->id) }}">
+                    <a href="{{ route('tienda.producto', $destacados[2]->slug) }}">
                       <img
                         src="{{ $destacados[2]->url_imagen_principal ?? asset('assets/img/product/placeholder.webp') }}"
                         alt="{{ $destacados[2]->nombre }}"
@@ -279,9 +372,6 @@
         @endif
       </div>
     </section><!-- /Hero Section -->
-
-    <!-- Hero Section with Carousel -->
- 
 
     <!-- Promo Cards Section - Categorías -->
     <section id="categorias" class="promo-cards section">
@@ -416,7 +506,7 @@
               $stockInfo = $producto->getStockInfo();
           @endphp
           <div class="col-lg-3 col-md-6">
-            <div class="product-item product-card-clickable" data-href="{{ route('tienda.producto', $producto->id) }}" style="cursor: pointer;">
+            <div class="product-item product-card-clickable" data-href="{{ route('tienda.producto', $producto->slug) }}" style="cursor: pointer;">
               <div class="product-image">
                 @if($descuentoProducto)
                   <div class="product-badge sale-badge">{{ $textoDescuentoProducto }}</div>
@@ -435,12 +525,12 @@
                   <button class="action-btn compare-btn" onclick="event.stopPropagation();">
                     <i class="bi bi-arrow-left-right"></i>
                   </button>
-                  <a href="{{ route('tienda.producto', $producto->id) }}" class="action-btn quickview-btn" onclick="event.stopPropagation();">
+                  <a href="{{ route('tienda.producto', $producto->slug) }}" class="action-btn quickview-btn" onclick="event.stopPropagation();">
                     <i class="bi bi-zoom-in"></i>
                   </a>
                 </div>
                 @if($producto->tiene_variantes)
-                  <a href="{{ route('tienda.producto', $producto->id) }}" class="cart-btn" onclick="event.stopPropagation();">Ver Opciones</a>
+                  <a href="{{ route('tienda.producto', $producto->slug) }}" class="cart-btn" onclick="event.stopPropagation();">Ver Opciones</a>
                 @else
                   <button class="cart-btn quick-add-btn"
                           data-producto-id="{{ $producto->id }}"
@@ -454,7 +544,7 @@
               <div class="product-info">
                 <div class="product-category">{{ $producto->categoria->nombre }}</div>
                 <h4 class="product-name">
-                  <a href="{{ route('tienda.producto', $producto->id) }}" onclick="event.stopPropagation();">{{ $producto->nombre }}</a>
+                  <a href="{{ route('tienda.producto', $producto->slug) }}" onclick="event.stopPropagation();">{{ $producto->nombre }}</a>
                 </h4>
                 @if(($producto->total_calificaciones ?? 0) > 0)
                 <div class="product-rating">
@@ -552,16 +642,16 @@
                   <button class="action-btn wishlist-btn">
                     <i class="bi bi-heart"></i>
                   </button>
-                  <a href="{{ route('tienda.producto', $oferta->id) }}" class="action-btn quickview-btn">
+                  <a href="{{ route('tienda.producto', $oferta->slug) }}" class="action-btn quickview-btn">
                     <i class="bi bi-zoom-in"></i>
                   </a>
                 </div>
-                <a href="{{ route('tienda.producto', $oferta->id) }}" class="cart-btn">Ver Oferta</a>
+                <a href="{{ route('tienda.producto', $oferta->slug) }}" class="cart-btn">Ver Oferta</a>
               </div>
               <div class="product-info">
                 <div class="product-category">{{ $oferta->categoria->nombre ?? 'Producto' }}</div>
                 <h4 class="product-name">
-                  <a href="{{ route('tienda.producto', $oferta->id) }}">{{ $oferta->nombre }}</a>
+                  <a href="{{ route('tienda.producto', $oferta->slug) }}">{{ $oferta->nombre }}</a>
                 </h4>
                 @if($oferta->precio_actual)
                   <div class="product-price">
@@ -588,6 +678,156 @@
 
 @push('styles')
 <style>
+/* ==========================================
+   Banner Promocional
+   ========================================== */
+.promo-banner {
+  padding: 0;
+  margin: 0;
+}
+.promo-banner-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+}
+.promo-banner-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.15) 100%);
+}
+.promo-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4em 1.1em;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+.promo-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.promo-desc {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 1.75rem;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+}
+.promo-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.promo-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.75rem;
+  background: #fff;
+  color: #1a202c;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.promo-btn-primary:hover {
+  background: var(--accent-color, #e84545);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+.promo-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 50px;
+  border: 2px solid rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.promo-btn-secondary:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #fff;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 991.98px) {
+  .promo-banner-bg {
+    min-height: 300px;
+  }
+  .promo-title {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 767.98px) {
+  .promo-banner-bg {
+    min-height: 280px;
+  }
+  .promo-title {
+    font-size: 1.6rem;
+  }
+  .promo-desc {
+    font-size: 0.95rem;
+  }
+  .promo-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .promo-btn-primary,
+  .promo-btn-secondary {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Carousel controls para banner */
+#promoBannerCarousel .carousel-control-prev,
+#promoBannerCarousel .carousel-control-next {
+  width: 5%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#promoBannerCarousel:hover .carousel-control-prev,
+#promoBannerCarousel:hover .carousel-control-next {
+  opacity: 1;
+}
+.promo-indicators {
+  bottom: 15px;
+}
+.promo-indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 4px;
+  opacity: 0.6;
+}
+.promo-indicators button.active {
+  opacity: 1;
+  background-color: #fff;
+}
+
 /* Ajustes para las imágenes de categorías */
 .promo-cards .category-featured {
   min-height: 400px;

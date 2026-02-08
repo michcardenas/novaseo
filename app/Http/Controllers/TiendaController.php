@@ -16,6 +16,9 @@ use App\Models\Departamento;
 use App\Models\ConfiguracionPasarela;
 use App\Models\CalificacionProducto;
 use App\Models\ReaccionCalificacion;
+use App\Models\BlogPost;
+use App\Models\BlogCategoria;
+use App\Models\BlogConfiguracion;
 use App\Services\WompiService;
 use App\Services\Templates\TemplateResolver;
 use Illuminate\Http\Request;
@@ -58,7 +61,7 @@ class TiendaController extends Controller
         }
 
         $empresa = $this->getEmpresa();
-        $empresa->load(['carruselImagenesActivas']);
+        $empresa->load(['carruselImagenesActivas', 'bannerSlidesActivos']);
 
         // Obtener primera lista de precios activa
         $listaPrecio = ListaPrecio::activas()->first();
@@ -272,18 +275,23 @@ class TiendaController extends Controller
     /**
      * Mostrar detalle de producto
      */
-    public function producto($productoId)
+    public function producto($slug)
     {
         $empresa = $this->getEmpresa();
 
-        $producto = Producto::where('id', $productoId)
-            ->where('empresa_id', $empresa->id)
+        // Buscar producto por slug generado desde el nombre
+        $producto = Producto::where('empresa_id', $empresa->id)
             ->where('activo', true)
             ->noEliminados()
             ->with(['imagenes', 'categoria', 'variantes' => function($q) {
                 $q->where('activo', true);
             }])
-            ->firstOrFail();
+            ->get()
+            ->first(fn($p) => Str::slug($p->nombre) === $slug);
+
+        if (!$producto) {
+            abort(404);
+        }
 
         // Obtener primera lista de precios
         $listaPrecio = ListaPrecio::activas()->first();
@@ -1230,7 +1238,7 @@ public function categorias(Request $request)
      * Cualquier visitante puede dejar una reseña, pero requiere aprobación del admin
      * Excepción: si el usuario está logueado como admin, se aprueba automáticamente
      */
-    public function guardarResena(Request $request, $productoId)
+    public function guardarResena(Request $request, $slug)
     {
         $request->validate([
             'nombre' => 'required|string|max:100',
@@ -1251,8 +1259,16 @@ public function categorias(Request $request)
             'imagen.max' => 'La imagen no puede exceder 5MB',
         ]);
 
-        // Verificar que el producto existe
-        $producto = Producto::findOrFail($productoId);
+        // Verificar que el producto existe por slug
+        $empresa = $this->getEmpresa();
+        $producto = Producto::where('empresa_id', $empresa->id)
+            ->where('activo', true)
+            ->get(['id', 'nombre', 'empresa_id'])
+            ->first(fn($p) => Str::slug($p->nombre) === $slug);
+
+        if (!$producto) {
+            abort(404);
+        }
 
         // Procesar imagen si existe
         $rutaImagen = null;
@@ -1406,5 +1422,95 @@ public function categorias(Request $request)
             'action' => $accion,
             'conteos' => $conteos
         ]);
+    }
+
+    // ==================== BLOG PÚBLICO ====================
+
+    public function blogIndex(Request $request)
+    {
+        $empresa = $this->getEmpresa();
+
+        $query = BlogPost::where('empresa_id', $empresa->id)
+            ->publicados()
+            ->with(['categoria', 'autor'])
+            ->orderBy('publicado_en', 'desc');
+
+        // Filtro por categoría
+        if ($request->has('categoria') && $request->categoria) {
+            $categoriaSlug = $request->categoria;
+            $query->whereHas('categoria', function ($q) use ($categoriaSlug) {
+                $q->where('slug', $categoriaSlug);
+            });
+        }
+
+        $posts = $query->paginate(9);
+
+        $categoriasBlog = BlogCategoria::where('empresa_id', $empresa->id)
+            ->activas()
+            ->withCount(['posts' => function ($q) {
+                $q->publicados();
+            }])
+            ->get();
+
+        $categorias = Categoria::where('empresa_id', $empresa->id)
+            ->where('activo', true)
+            ->whereHas('productos', function ($q) {
+                $q->where('activo', true);
+            })
+            ->orderBy('orden')
+            ->get();
+
+        $carrito = $this->obtenerCarrito($empresa->id);
+
+        $blogConfig = BlogConfiguracion::where('empresa_id', $empresa->id)->first();
+
+        return view('tienda.blog', compact('empresa', 'posts', 'categoriasBlog', 'categorias', 'carrito', 'blogConfig'));
+    }
+
+    public function blogPost($slug)
+    {
+        $empresa = $this->getEmpresa();
+
+        $post = BlogPost::where('empresa_id', $empresa->id)
+            ->where('slug', $slug)
+            ->publicados()
+            ->with(['categoria', 'autor', 'productoEnlace', 'relacionados' => function ($q) {
+                $q->publicados()->limit(3);
+            }])
+            ->firstOrFail();
+
+        $listaPrecio = ListaPrecio::activas()->first();
+
+        // Si tiene producto enlazado, obtener su precio
+        if ($post->productoEnlace && $listaPrecio) {
+            $post->productoEnlace->precio_actual = $post->productoEnlace->getPrecioPorLista($listaPrecio->id);
+        }
+
+        $categorias = Categoria::where('empresa_id', $empresa->id)
+            ->where('activo', true)
+            ->whereHas('productos', function ($q) {
+                $q->where('activo', true);
+            })
+            ->orderBy('orden')
+            ->get();
+
+        // Productos para carrusel (activos de la empresa, aleatorios)
+        $productosCarrusel = Producto::where('empresa_id', $empresa->id)
+            ->where('activo', true)
+            ->with('imagenPrincipal')
+            ->inRandomOrder()
+            ->limit(12)
+            ->get();
+
+        // Asignar precios a los productos del carrusel
+        if ($listaPrecio) {
+            foreach ($productosCarrusel as $prod) {
+                $prod->precio_actual = $prod->getPrecioPorLista($listaPrecio->id);
+            }
+        }
+
+        $carrito = $this->obtenerCarrito($empresa->id);
+
+        return view('tienda.blog-post', compact('empresa', 'post', 'categorias', 'carrito', 'productosCarrusel'));
     }
 }

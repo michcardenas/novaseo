@@ -98,7 +98,7 @@
                                     {{-- Producto --}}
                                     <div class="col-md-2">
                                         <small class="text-muted d-block">Producto</small>
-                                        <a href="{{ route('tienda.producto', $calificacion->producto_id) }}" target="_blank" class="text-decoration-none">
+                                        <a href="{{ route('tienda.producto', $calificacion->producto->slug ?? '') }}" target="_blank" class="text-decoration-none">
                                             {{ Str::limit($calificacion->producto->nombre ?? 'Producto eliminado', 30) }}
                                         </a>
                                     </div>

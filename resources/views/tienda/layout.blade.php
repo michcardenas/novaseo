@@ -28,6 +28,7 @@
   <!-- Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
+  @yield('seo_extras')
   @stack('styles')
 </head>
 
@@ -172,6 +173,7 @@
 {{--             <li><a href="#about" class="@yield('nav-about', '')">Acerca de</a></li> --}}
 {{--             <li><a href="#productos" class="@yield('nav-productos', '')">Productos</a></li> --}}
             <li><a href="{{ route('tienda.categorias') }}" class="@yield('nav-categorias', '')">Categorías</a></li>
+            <li><a href="{{ route('tienda.blog') }}" class="@yield('nav-blog', '')">Blog</a></li>
 {{--             <li><a href="#contacto" class="@yield('nav-contacto', '')">Contacto</a></li> --}}
           </ul>
         </nav>

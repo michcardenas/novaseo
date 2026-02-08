@@ -26,7 +26,8 @@
         .sidebar {
             width: 250px;
             transition: all 0.3s ease;
-            background: linear-gradient(to bottom, #FF00C1, #0B00F9) !important;
+            background: #ffffff !important;
+            border-right: 1px solid #e9ecef;
             overflow-x: hidden !important;
             overflow-y: auto !important;
         }
@@ -85,8 +86,9 @@
 
         header {
             height: 64px;
-            background: linear-gradient(to right, #FF00C1, #0B00F9);
-            color: white;
+            background: #ffffff;
+            color: #212529;
+            border-bottom: 1px solid #e9ecef;
             position: fixed;
             top: 0;
             right: 0;
@@ -95,19 +97,19 @@
         }
 
         header .text-muted {
-            color: rgba(255, 255, 255, 0.8) !important;
+            color: #6c757d !important;
         }
 
         header .fw-semibold {
-            color: white !important;
+            color: #212529 !important;
         }
 
         #toggleSidebar {
-            color: white !important;
+            color: #212529 !important;
         }
 
         #toggleSidebar:hover {
-            background-color: rgba(255, 255, 255, 0.2) !important;
+            background-color: rgba(0, 0, 0, 0.08) !important;
         }
 
         main {
