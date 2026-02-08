@@ -156,7 +156,7 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: `/blog/${id}/cambiar-estado`,
+          url: `/admin-blog/${id}/cambiar-estado`,
           method: 'POST',
           data: {
             _token: '{{ csrf_token() }}'
@@ -196,7 +196,7 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: `/blog/${id}/eliminar`,
+          url: `/admin-blog/${id}/eliminar`,
           method: 'DELETE',
           data: {
             _token: '{{ csrf_token() }}'
