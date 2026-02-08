@@ -23,7 +23,12 @@ class SitemapService
                 return false;
             }
 
-            $baseUrl = rtrim(config('app.url'), '/');
+            // Usar el dominio real de la petición (web) o APP_URL como fallback (CLI)
+            if (app()->runningInConsole()) {
+                $baseUrl = rtrim(config('app.url'), '/');
+            } else {
+                $baseUrl = rtrim(url('/'), '/');
+            }
             $urls = [];
 
             // Página principal
