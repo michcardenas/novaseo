@@ -74,19 +74,18 @@
             left: 0;
             right: 0;
             height: 68px;
-            background: linear-gradient(135deg, rgba(16, 16, 30, 0.95) 0%, rgba(30, 30, 60, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(16, 16, 30, 0.97) 0%, rgba(30, 30, 60, 0.97) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
         }
 
         .modern-navbar.scrolled {
             height: 60px;
-            background: linear-gradient(135deg, rgba(16, 16, 30, 0.98) 0%, rgba(30, 30, 60, 0.98) 100%);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(135deg, rgba(16, 16, 30, 0.99) 0%, rgba(30, 30, 60, 0.99) 100%);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
         }
 
         .nav-container {
@@ -103,159 +102,156 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            cursor: pointer;
+            text-decoration: none;
             transition: all 0.3s ease;
         }
 
         .nav-logo:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .logo-nav {
-            height: 48px;
+            height: 44px;
             width: auto;
             transition: all 0.3s ease;
         }
 
         .modern-navbar.scrolled .logo-nav {
-            height: 44px;
+            height: 40px;
         }
 
-        .brand-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff00c8 0%, #7000ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
+        .welcome-nav-links {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
-        .nav-link {
+        .welcome-nav-link {
             position: relative;
-            padding: 10px 18px;
+            padding: 8px 16px;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.9);
-            border-radius: 50px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: rgba(255, 255, 255, 0.85);
+            border-radius: 8px;
+            transition: all 0.3s ease;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             border: none;
             background: none;
             cursor: pointer;
-            overflow: hidden;
+            white-space: nowrap;
         }
 
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
+        .welcome-nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .welcome-nav-link i {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        .welcome-nav-link.active {
+            color: #fff;
+            background: rgba(255, 0, 200, 0.2);
+        }
+
+        .nav-separator {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 0.25rem;
+        }
+
+        .welcome-nav-link.btn-register {
             background: linear-gradient(135deg, #ff00c8 0%, #7000ff 100%);
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 50px;
-            z-index: -1;
-        }
-
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
-        .nav-link:hover {
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 0, 200, 0.3);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
         }
 
-        .nav-link-content {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .welcome-nav-link.btn-register:hover {
+            box-shadow: 0 4px 15px rgba(255, 0, 200, 0.4);
+            transform: translateY(-1px);
         }
 
-        .nav-link i {
-            font-size: 1.1rem;
-            transition: transform 0.3s ease;
+        .welcome-nav-link.btn-login {
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .nav-link:hover i {
-            transform: scale(1.1);
-        }
-
-        .register-btn {
-            background: linear-gradient(135deg, #ff00c8 0%, #7000ff 100%);
-            color: white !important;
-            box-shadow: 0 4px 15px rgba(255, 0, 200, 0.3);
-        }
-
-        .register-btn::before {
-            background: linear-gradient(135deg, #7000ff 0%, #ff00c8 100%);
+        .welcome-nav-link.btn-login:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .logout-form {
             display: inline;
         }
 
-        .logout-btn {
-            color: #dc3545;
+        .welcome-nav-link.btn-logout {
+            color: rgba(255, 130, 130, 0.9);
         }
 
-        .logout-btn:hover {
-            color: white;
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
-        }
-
-        .logout-btn::before {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        .welcome-nav-link.btn-logout:hover {
+            color: #fff;
+            background: rgba(220, 53, 69, 0.3);
         }
 
         /* Mobile Menu Button */
         .mobile-menu-btn {
             display: none;
+            justify-content: center;
+            align-items: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .mobile-menu-btn:hover,
+        .mobile-menu-btn:focus {
+            background: rgba(255, 0, 200, 0.15);
+            border-color: rgba(255, 0, 200, 0.3);
+        }
+
+        .mobile-menu-btn .hamburger-icon {
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 50px;
-            height: 50px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            border-radius: 12px;
+            gap: 5px;
+            width: 22px;
+        }
+
+        .mobile-menu-btn .hamburger-icon span {
+            display: block;
+            width: 100%;
+            height: 2.5px;
+            background: #fff;
+            border-radius: 2px;
             transition: all 0.3s ease;
         }
 
-        .mobile-menu-btn:hover {
-            background: rgba(255, 0, 200, 0.1);
+        .mobile-menu-btn.active .hamburger-icon span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
         }
 
-        .hamburger-line {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: linear-gradient(135deg, #ff00c8 0%, #7000ff 100%);
-            margin: 3px 0;
-            border-radius: 2px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .mobile-menu-btn.active .hamburger-line:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px);
-        }
-
-        .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+        .mobile-menu-btn.active .hamburger-icon span:nth-child(2) {
             opacity: 0;
+            width: 0;
         }
 
-        .mobile-menu-btn.active .hamburger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px);
+        .mobile-menu-btn.active .hamburger-icon span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
         }
 
         /* Mobile Menu Overlay */
@@ -265,12 +261,12 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
             z-index: 9999;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         .mobile-menu-overlay.active {
@@ -282,13 +278,15 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 320px;
+            width: 300px;
+            max-width: 85vw;
             height: 100vh;
-            background: white;
+            background: #fff;
             transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
         }
 
         .mobile-menu-overlay.active .mobile-menu {
@@ -296,56 +294,67 @@
         }
 
         .mobile-menu-header {
-            padding: 2rem;
-            border-bottom: 1px solid #eee;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
         .mobile-logo {
-            height: 40px;
+            height: 36px;
             width: auto;
         }
 
         .close-mobile-menu {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border: none;
-            background: none;
-            font-size: 1.5rem;
-            color: #333;
-            border-radius: 50%;
+            background: #f5f5f5;
+            font-size: 1.2rem;
+            color: #555;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .close-mobile-menu:hover {
-            background: rgba(255, 0, 200, 0.1);
-            color: #ff00c8;
+            background: #ff00c8;
+            color: #fff;
         }
 
         .mobile-menu-links {
-            padding: 2rem;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.25rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .mobile-menu-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            padding: 0.75rem 1rem 0.25rem;
+            font-weight: 600;
         }
 
         .mobile-nav-link {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 15px 20px;
+            padding: 12px 16px;
             text-decoration: none;
             color: #333;
-            border-radius: 12px;
+            border-radius: 10px;
             font-weight: 500;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
             border: none;
             background: none;
             cursor: pointer;
@@ -354,29 +363,53 @@
         }
 
         .mobile-nav-link:hover {
-            background: linear-gradient(135deg, #ff00c8 0%, #7000ff 100%);
-            color: white;
-            transform: translateX(5px);
+            background: #f5f0ff;
+            color: #7000ff;
         }
 
         .mobile-nav-link i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             width: 24px;
             text-align: center;
+            color: #888;
         }
 
-        .register-mobile {
+        .mobile-nav-link:hover i {
+            color: #7000ff;
+        }
+
+        .mobile-nav-link.register-mobile {
             background: linear-gradient(135deg, #ff00c8 0%, #7000ff 100%);
-            color: white !important;
-            margin-top: 10px;
+            color: white;
+            margin-top: 0.5rem;
+            justify-content: center;
+            font-weight: 600;
         }
 
-        .logout-mobile {
+        .mobile-nav-link.register-mobile i {
+            color: white;
+        }
+
+        .mobile-nav-link.register-mobile:hover {
+            box-shadow: 0 4px 15px rgba(255, 0, 200, 0.3);
+        }
+
+        .mobile-nav-link.logout-mobile {
             color: #dc3545;
         }
 
-        .logout-mobile:hover {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        .mobile-nav-link.logout-mobile i {
+            color: #dc3545;
+        }
+
+        .mobile-nav-link.logout-mobile:hover {
+            background: #fef2f2;
+        }
+
+        .mobile-menu-divider {
+            height: 1px;
+            background: #f0f0f0;
+            margin: 0.5rem 1rem;
         }
 
         /* Body padding for fixed navbar */
@@ -385,8 +418,8 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
+        @media (max-width: 991px) {
+            .welcome-nav-links {
                 display: none;
             }
 
@@ -398,16 +431,8 @@
                 padding: 0 1rem;
             }
 
-            .brand-text {
-                font-size: 1.2rem;
-            }
-
             .logo-nav {
-                height: 38px;
-            }
-
-            .mobile-menu {
-                width: 100%;
+                height: 36px;
             }
 
             body {
@@ -419,21 +444,11 @@
             }
         }
 
-        @media (max-width: 480px) {
-            .mobile-menu {
-                width: 100vw;
-            }
-
-            .mobile-menu-links {
-                padding: 1.5rem;
-            }
-        }
-
         /* Animation for scroll */
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -442,67 +457,61 @@
         }
 
         .modern-navbar {
-            animation: fadeInDown 0.8s ease-out;
+            animation: fadeInDown 0.6s ease-out;
         }
     </style>
 
 </head>
 
 <body id="welcome-body">
-    <!-- 🎯 MODERN NAVIGATION BAR -->
+    <!-- Navigation Bar -->
     <nav class="modern-navbar" id="modernNavbar">
         <div class="nav-container">
-            <!-- Logo Section -->
-            <div class="nav-logo">
+            <!-- Logo -->
+            <a href="/" class="nav-logo">
                 <img src="{{ asset($page->content['logo_principal'] ?? 'images/logo1.png') }}" alt="Esnova" class="logo-nav">
-            </div>
+            </a>
 
-            <!-- Navigation Links -->
-            <div class="nav-links">
-                <a href="{{ route('tienda.blog') }}" class="nav-link">
-                    <div class="nav-link-content">
-                        <i class="bi bi-journal-richtext"></i>
-                        <span>Blog</span>
-                    </div>
+            <!-- Desktop Navigation Links -->
+            <div class="welcome-nav-links">
+                <a href="/" class="welcome-nav-link active">
+                    <i class="bi bi-house-door"></i>Inicio
                 </a>
+                <a href="{{ url('/catalogo') }}" class="welcome-nav-link">
+                    <i class="bi bi-grid"></i>Catálogo
+                </a>
+                <a href="{{ route('tienda.blog') }}" class="welcome-nav-link">
+                    <i class="bi bi-journal-richtext"></i>Blog
+                </a>
+
+                <div class="nav-separator"></div>
+
                 @auth
-                    <a href="{{ route('dashboard') }}" class="nav-link">
-                        <div class="nav-link-content">
-                            <i class="bi bi-person-circle"></i>
-                            <span>Mi cuenta</span>
-                        </div>
+                    <a href="{{ route('dashboard') }}" class="welcome-nav-link">
+                        <i class="bi bi-person-circle"></i>Mi cuenta
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="logout-form">
                         @csrf
-                        <button type="submit" class="nav-link logout-btn">
-                            <div class="nav-link-content">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Cerrar sesión</span>
-                            </div>
+                        <button type="submit" class="welcome-nav-link btn-logout">
+                            <i class="bi bi-box-arrow-right"></i>Salir
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="nav-link login-btn">
-                        <div class="nav-link-content">
-                            <i class="bi bi-box-arrow-in-right"></i>
-                            <span>Iniciar sesión</span>
-                        </div>
+                    <a href="{{ route('login') }}" class="welcome-nav-link btn-login">
+                        <i class="bi bi-box-arrow-in-right"></i>Iniciar sesión
                     </a>
-                    <a href="{{ route('register') }}" class="nav-link register-btn">
-                        <div class="nav-link-content">
-                            <i class="bi bi-person-plus"></i>
-                            <span>Registrarse</span>
-                        </div>
+                    <a href="{{ route('register') }}" class="welcome-nav-link btn-register">
+                        <i class="bi bi-person-plus"></i>Registrarse
                     </a>
                 @endauth
             </div>
 
             <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <div class="hamburger">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
             </button>
         </div>
@@ -512,15 +521,28 @@
             <div class="mobile-menu">
                 <div class="mobile-menu-header">
                     <img src="{{ asset($page->content['logo_principal'] ?? 'images/logo1.png') }}" alt="Esnova" class="mobile-logo">
-                    <button class="close-mobile-menu" id="closeMobileMenu">
+                    <button class="close-mobile-menu" id="closeMobileMenu" aria-label="Cerrar menú">
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
                 <div class="mobile-menu-links">
+                    <span class="mobile-menu-label">Navegación</span>
+                    <a href="/" class="mobile-nav-link">
+                        <i class="bi bi-house-door"></i>
+                        <span>Inicio</span>
+                    </a>
+                    <a href="{{ url('/catalogo') }}" class="mobile-nav-link">
+                        <i class="bi bi-grid"></i>
+                        <span>Catálogo</span>
+                    </a>
                     <a href="{{ route('tienda.blog') }}" class="mobile-nav-link">
                         <i class="bi bi-journal-richtext"></i>
                         <span>Blog</span>
                     </a>
+
+                    <div class="mobile-menu-divider"></div>
+                    <span class="mobile-menu-label">Cuenta</span>
+
                     @auth
                         <a href="{{ route('dashboard') }}" class="mobile-nav-link">
                             <i class="bi bi-person-circle"></i>
@@ -995,186 +1017,55 @@
     </a>
 
     <script>
-        // Modern Navigation Bar Functionality
         document.addEventListener('DOMContentLoaded', function() {
             const navbar = document.getElementById('modernNavbar');
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
             const closeMobileMenu = document.getElementById('closeMobileMenu');
-            
-            // Navbar scroll effect
-            let lastScrollY = window.scrollY;
+
+            // Scroll effect
             let ticking = false;
-            
-            function updateNavbar() {
-                const scrollY = window.scrollY;
-                
-                if (scrollY > 20) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-                
-                lastScrollY = scrollY;
-                ticking = false;
-            }
-            
-            function onScroll() {
+            window.addEventListener('scroll', function() {
                 if (!ticking) {
-                    requestAnimationFrame(updateNavbar);
+                    requestAnimationFrame(function() {
+                        navbar.classList.toggle('scrolled', window.scrollY > 20);
+                        ticking = false;
+                    });
                     ticking = true;
                 }
-            }
-            
-            window.addEventListener('scroll', onScroll, { passive: true });
-            
-            // Mobile menu functionality
+            }, { passive: true });
+
+            // Mobile menu
             function toggleMobileMenu(show) {
-                if (show) {
-                    mobileMenuOverlay.classList.add('active');
-                    mobileMenuBtn.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    mobileMenuOverlay.classList.remove('active');
-                    mobileMenuBtn.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
+                mobileMenuOverlay.classList.toggle('active', show);
+                mobileMenuBtn.classList.toggle('active', show);
+                document.body.style.overflow = show ? 'hidden' : '';
             }
-            
-            // Open mobile menu
+
             mobileMenuBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 toggleMobileMenu(true);
             });
-            
-            // Close mobile menu
+
             closeMobileMenu.addEventListener('click', function() {
                 toggleMobileMenu(false);
             });
-            
-            // Close mobile menu when clicking overlay
+
             mobileMenuOverlay.addEventListener('click', function(e) {
-                if (e.target === mobileMenuOverlay) {
-                    toggleMobileMenu(false);
-                }
+                if (e.target === mobileMenuOverlay) toggleMobileMenu(false);
             });
-            
-            // Close mobile menu on escape key
+
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    toggleMobileMenu(false);
-                }
+                if (e.key === 'Escape') toggleMobileMenu(false);
             });
-            
-            // Close mobile menu when clicking on mobile nav links
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link:not(.logout-mobile)');
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    toggleMobileMenu(false);
-                });
+
+            document.querySelectorAll('.mobile-nav-link:not(.logout-mobile)').forEach(function(link) {
+                link.addEventListener('click', function() { toggleMobileMenu(false); });
             });
-            
-            // Smooth hover animations for nav links
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => {
-                link.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-2px)';
-                });
-                
-                link.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-            
-            // Logo click to scroll to top
-            const logoSection = document.querySelector('.nav-logo');
-            if (logoSection) {
-                logoSection.addEventListener('click', function() {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-            }
-            
-            // Add ripple effect to nav links
-            function createRipple(event) {
-                const button = event.currentTarget;
-                const circle = document.createElement('span');
-                const diameter = Math.max(button.clientWidth, button.clientHeight);
-                const radius = diameter / 2;
-                
-                const rect = button.getBoundingClientRect();
-                circle.style.width = circle.style.height = `${diameter}px`;
-                circle.style.left = `${event.clientX - rect.left - radius}px`;
-                circle.style.top = `${event.clientY - rect.top - radius}px`;
-                circle.classList.add('ripple');
-                
-                const ripple = button.getElementsByClassName('ripple')[0];
-                if (ripple) {
-                    ripple.remove();
-                }
-                
-                button.appendChild(circle);
-                
-                setTimeout(() => {
-                    circle.remove();
-                }, 600);
-            }
-            
-            // Add ripple CSS
-            const style = document.createElement('style');
-            style.textContent = `
-                .nav-link {
-                    position: relative;
-                    overflow: hidden;
-                }
-                
-                .ripple {
-                    position: absolute;
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 600ms linear;
-                    background-color: rgba(255, 255, 255, 0.6);
-                    pointer-events: none;
-                }
-                
-                @keyframes ripple {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // Apply ripple effect to nav links
-            navLinks.forEach(link => {
-                link.addEventListener('click', createRipple);
-            });
-            
-            // Intersection Observer for navbar animation on load
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            // Add subtle animation to navbar on first load
-            setTimeout(() => {
-                navbar.style.transform = 'translateY(0)';
-                navbar.style.opacity = '1';
-            }, 100);
-            
-            // Performance optimization: Debounce resize events
-            let resizeTimer;
+
+            // Close on resize to desktop
             window.addEventListener('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function() {
-                    // Close mobile menu on resize to desktop
-                    if (window.innerWidth > 768) {
-                        toggleMobileMenu(false);
-                    }
-                }, 100);
+                if (window.innerWidth > 991) toggleMobileMenu(false);
             });
         });
     </script>

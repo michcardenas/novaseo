@@ -29,6 +29,59 @@
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
   @yield('seo_extras')
+
+  <style>
+    /* Fix: Hamburger icon visible on light background */
+    .mobile-nav-toggle {
+      color: var(--heading-color, #333) !important;
+      font-size: 28px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .mobile-nav-toggle:hover {
+      background: rgba(0,0,0,0.06);
+    }
+    .mobile-nav-active .mobile-nav-toggle {
+      color: #fff !important;
+    }
+
+    /* Nav items with icons */
+    .header-nav .navmenu ul li a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* WhatsApp floating button for tienda */
+    .tienda-whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 28px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+    .tienda-whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 24px rgba(37, 211, 102, 0.5);
+      color: #fff;
+    }
+  </style>
+
   @stack('styles')
 </head>
 
@@ -42,39 +95,34 @@
           <div class="col-lg-4 d-none d-lg-flex">
             <div class="top-bar-item">
               <i class="bi bi-telephone-fill me-2"></i>
-              <span>¿Necesitas ayuda? Llámanos: </span>
+              <span>¿Necesitas ayuda? </span>
               <a href="tel:{{ $empresa->telefono }}">{{ $empresa->telefono ?? '+1 (234) 567-890' }}</a>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-12 text-center">
-              <div class="announcement-slider swiper init-swiper">
-                <script type="application/json" class="swiper-config">
-                  {
-                    "loop": true,
-                    "speed": 600,
-                    "autoplay": {
-                      "delay": 5000
-                    },
-                    "slidesPerView": 1,
-                    "direction": "vertical",
-                    "effect": "slide"
-                  }
-                </script>
-              </div>
+            <div class="top-bar-item">
+              @if($empresa->direccion)
+                <i class="bi bi-geo-alt me-1"></i>
+                <span>{{ $empresa->direccion }}</span>
+              @else
+                <i class="bi bi-truck me-1"></i>
+                <span>Envíos a todo el país</span>
+              @endif
+            </div>
           </div>
 
           <div class="col-lg-4 d-none d-lg-block">
             <div class="d-flex justify-content-end">
-              <div class="top-bar-item dropdown me-3">
-                <a href="#" class="" data-bs-toggle="dropdown">
-                  <i class="bi bi-translate me-2"></i>ES
-                </a>
+              @if($empresa->email)
+              <div class="top-bar-item me-3">
+                <i class="bi bi-envelope me-1"></i>
+                <a href="mailto:{{ $empresa->email }}">{{ $empresa->email }}</a>
               </div>
-              <div class="top-bar-item dropdown">
-                <a href="#" class="" data-bs-toggle="dropdown">
-                  <i class="bi bi-currency-dollar me-2"></i>COP
-                </a>
+              @endif
+              <div class="top-bar-item">
+                <i class="bi bi-clock me-1"></i>
+                <span>Lun - Sáb</span>
               </div>
             </div>
           </div>
@@ -169,12 +217,12 @@
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="{{ route('tienda.empresa') }}" class="@yield('nav-inicio', '')">Inicio</a></li>
-{{--             <li><a href="#about" class="@yield('nav-about', '')">Acerca de</a></li> --}}
-{{--             <li><a href="#productos" class="@yield('nav-productos', '')">Productos</a></li> --}}
-            <li><a href="{{ route('tienda.categorias') }}" class="@yield('nav-categorias', '')">Categorías</a></li>
-            <li><a href="{{ route('tienda.blog') }}" class="@yield('nav-blog', '')">Blog</a></li>
-{{--             <li><a href="#contacto" class="@yield('nav-contacto', '')">Contacto</a></li> --}}
+            <li><a href="{{ route('tienda.empresa') }}" class="@yield('nav-inicio', '')"><i class="bi bi-house-door me-1"></i>Inicio</a></li>
+            <li><a href="{{ route('tienda.categorias') }}" class="@yield('nav-categorias', '')"><i class="bi bi-grid me-1"></i>Catálogo</a></li>
+            <li><a href="{{ route('tienda.blog') }}" class="@yield('nav-blog', '')"><i class="bi bi-journal-richtext me-1"></i>Blog</a></li>
+            @if($empresa->whatsapp)
+            <li><a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $empresa->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp me-1"></i>Contáctanos</a></li>
+            @endif
           </ul>
         </nav>
       </div>
@@ -366,6 +414,13 @@
       <div class="toast-body"></div>
     </div>
   </div>
+
+  <!-- WhatsApp Float -->
+  @if($empresa->whatsapp)
+    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $empresa->whatsapp) }}" class="tienda-whatsapp-float" target="_blank" aria-label="WhatsApp">
+      <i class="bi bi-whatsapp"></i>
+    </a>
+  @endif
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
